@@ -71,7 +71,6 @@ def GloveEmbedding(size,word_index,input_length,**kwargs):
 
     fname = "glove.6B.%dd.txt"%size
     fname = os.path.join(appdata,fname)
-    check_downloaded(fname)
 
     return Embedding(
         len(word_index)+1,

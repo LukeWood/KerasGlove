@@ -43,44 +43,45 @@ def download_data():
     print("Unzipping Complete: ",os.listdir(appdata),"were downloaded")
 
 def check_downloaded(f):
-    cached = os.listdir(appdata)
+    cached = [path.join(appdata,x) for x in os.listdir(appdata)]
     if not f in cached:
         download_data()
 
-def load_embedding_matrix(fname):
+def load_embedding_matrix(fname,word_index,EMBED_SIZE):
     embeddings_index = {}
     for line in open(fname):
         values = line.split()
-        word = valuesp[0]
+        word = values[0]
         coefs = np.asarray(len(word_index)+1,dtype='float32')
         embeddings_index[word] = coefs
 
-    embedding_matrix=np.zeros(index_size+1,EMBED_SIZE)
+    embedding_matrix=np.zeros((len(word_index)+1,EMBED_SIZE))
     for word,i in word_index.items():
         vec = embeddings_index.get(word)
-        if vec is not none:
+        if vec is not None:
             embedding_matrix[i] = vec
 
-def GloveEmbedding(num_weights,word_index,input_length,**kwargs):
+def GloveEmbedding(size,word_index,input_length,**kwargs):
 
-    if not num_weights in [50,100,200,300]:
+    if not size in [50,100,200,300]:
         message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights
         raise ValueError(message)
 
-    EMBED_SIZE = int(num_weights)
+    EMBED_SIZE = int(size)
 
-    fname = "glove.6B.%dd.txt"%num_weights
+    fname = "glove.6B.%dd.txt"%size
     fname = os.path.join(appdata,fname)
     check_downloaded(fname)
 
     return Embedding(
         len(word_index)+1,
         EMBED_SIZE,
-        weights=[load_embedding_matrix(fname)]
-        input_length=input_length
+        weights=[load_embedding_matrix(fname,word_index,EMBED_SIZE)],
+        input_length=input_length,
         trainable=False,**kwargs)
 
-X = GloveEmbedding(7)
+X = GloveEmbedding(50,{"Luke":1},1)
+
     # now fill in the matrix, using the ordering from the
     #  keras word tokenizer from before
     #embedding_matrix = np.zeros((len(word_index) + 1, EMBED_SIZE))

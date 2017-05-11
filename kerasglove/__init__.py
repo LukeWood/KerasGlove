@@ -2,7 +2,6 @@ import sys
 from os import path, environ
 import os
 import numpy as np
-from keras.layers import Embedding
 
 #Get an appdata folder for our module.
 APPNAME = "KerasGlove"
@@ -29,7 +28,7 @@ def download_file(url,destination):
     return local_filename
 
 # Download embeddings if neccesary
-if not os.exists(path.join(appdata,".downloaded")):
+if not path.exists(path.join(appdata,".downloaded")):
     print("Downloading pre-trained glove embeddings to %s" % (appdata))
     url = "http://nlp.stanford.edu/data/glove.6B.zip"
     download_file(url,path.join(appdata,"glove.6B.zip"))
@@ -43,6 +42,7 @@ if not os.exists(path.join(appdata,".downloaded")):
 
 
 def GloveEmbedding(size,word_index,input_length,**kwargs):
+    from keras.layers import Embedding
     if not size in [50,100,200,300]:
         message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights
         raise ValueError(message)

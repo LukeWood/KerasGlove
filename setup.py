@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
   name = 'kerasglove',
   packages = ['kerasglove'], # this must be the same as the name above
-  version = '0.1',
+  version = '1.0',
   description = 'Pre-trained GLOVE embeddings for keras',
   author = 'LukeWood',
   author_email = 'lukewoodcs@gmail.com',

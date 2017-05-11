@@ -4,3 +4,6 @@ KerasGlove is an open source extension on keras that makes it incredibly easy to
 Training your own embedding is incredibly expensive.  To avoid having to do this, the common approach is to use a pre-trained embedding.
 
 This package downloads and caches embeddings with 50, 100, 200 and 300 weights.
+
+Credits:
+Eric Larson

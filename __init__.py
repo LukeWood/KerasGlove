@@ -61,8 +61,8 @@ def load_embedding_matrix(fname,word_index,EMBED_SIZE):
         if vec is not None:
             embedding_matrix[i] = vec
 
-def GloveEmbedding(size,word_index,input_length,**kwargs):
 
+def GloveEmbedding(size,word_index,input_length,**kwargs):
     if not size in [50,100,200,300]:
         message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights
         raise ValueError(message)
@@ -79,14 +79,3 @@ def GloveEmbedding(size,word_index,input_length,**kwargs):
         weights=[load_embedding_matrix(fname,word_index,EMBED_SIZE)],
         input_length=input_length,
         trainable=False,**kwargs)
-
-X = GloveEmbedding(50,{"Luke":1},1)
-
-    # now fill in the matrix, using the ordering from the
-    #  keras word tokenizer from before
-    #embedding_matrix = np.zeros((len(word_index) + 1, EMBED_SIZE))
-    #for word, i in word_index.items():
-    #    embedding_vector = embeddings_index.get(word)
-    #    if embedding_vector is not None:
-    #        # words not found in embedding index will be all-zeros.
-    #        embedding_matrix[i] = embedding_vector

@@ -2,6 +2,7 @@ import sys
 from os import path, environ
 import os
 import numpy as np
+from keras.layers import Embedding
 
 #Get an appdata folder for our module.
 APPNAME = "KerasGlove"
@@ -46,20 +47,38 @@ def check_downloaded(f):
     if not f in cached:
         download_data()
 
-class GloveEmbedding:
-    def __init__(self,num_weights,index_size):
-        if not num_weights in [50,100,200,300]:
-            message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights
-            raise ValueError(message)
+def load_embedding_matrix(fname):
+    embeddings_index = {}
+    for line in open(fname):
+        values = line.split()
+        word = valuesp[0]
+        coefs = np.asarray(len(word_index)+1,dtype='float32')
+        embeddings_index[word] = coefs
 
-        EMBED_SIZE = int(num_weights)
-        embeddings_index = {}
+    embedding_matrix=np.zeros(index_size+1,EMBED_SIZE)
+    for word,i in word_index.items():
+        vec = embeddings_index.get(word)
+        if vec is not none:
+            embedding_matrix[i] = vec
 
-        fname = "glove.6B.%dd.txt"%num_weights
-        fname = os.path.join(appdata,fname)
-        check_downloaded(fname)
+def GloveEmbedding(num_weights,word_index,input_length,**kwargs):
 
-        
+    if not num_weights in [50,100,200,300]:
+        message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights
+        raise ValueError(message)
+
+    EMBED_SIZE = int(num_weights)
+
+    fname = "glove.6B.%dd.txt"%num_weights
+    fname = os.path.join(appdata,fname)
+    check_downloaded(fname)
+
+    return Embedding(
+        len(word_index)+1,
+        EMBED_SIZE,
+        weights=[load_embedding_matrix(fname)]
+        input_length=input_length
+        trainable=False,**kwargs)
 
 X = GloveEmbedding(7)
     # now fill in the matrix, using the ordering from the

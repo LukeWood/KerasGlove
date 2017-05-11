@@ -41,7 +41,7 @@ if not path.exists(path.join(appdata,".downloaded")):
     open(path.join(appdata,".downloaded"),"a").close()
 
 
-def GloveEmbedding(size,word_index,input_length,**kwargs):
+def GloveEmbedding(size,input_length,word_index,**kwargs):
     from keras.layers import Embedding
     if not size in [50,100,200,300]:
         message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights

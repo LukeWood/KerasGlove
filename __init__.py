@@ -15,38 +15,6 @@ else:
 if not path.isdir(appdata):
     os.mkdir(appdata)
 
-def download_file(url,destination):
-    import requests
-    local_filename = destination
-    # NOTE the stream=True parameter
-    r = requests.get(url, stream=True)
-
-    with open(local_filename, 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024):
-            if chunk: # filter out keep-alive new chunks
-                f.write(chunk)
-                #f.flush() commented by recommendation from J.F.Sebastian
-    return local_filename
-
-def download_data():
-    cached = os.listdir(appdata)
-    if not "glove.6B.zip" in cached:
-        print("GLOVE Embeddings have not been downloaded yet, downloading to %s" % (appdata))
-        url = "http://nlp.stanford.edu/data/glove.6B.zip"
-        download_file(url,path.join(appdata,"glove.6B.zip"))
-
-    print("Unzipping glove embeddings.")
-    import zipfile
-    zip_ref = zipfile.ZipFile(path.join(appdata,"glove.6B.zip"))
-    zip_ref.extractall(appdata)
-    zip_ref.close()
-    print("Unzipping Complete: ",os.listdir(appdata),"were downloaded")
-
-def check_downloaded(f):
-    cached = [path.join(appdata,x) for x in os.listdir(appdata)]
-    if not f in cached:
-        download_data()
-
 def load_embedding_matrix(fname,word_index,EMBED_SIZE):
     embeddings_index = {}
     for line in open(fname):
@@ -60,7 +28,6 @@ def load_embedding_matrix(fname,word_index,EMBED_SIZE):
         vec = embeddings_index.get(word)
         if vec is not None:
             embedding_matrix[i] = vec
-
 
 def GloveEmbedding(size,word_index,input_length,**kwargs):
     if not size in [50,100,200,300]:

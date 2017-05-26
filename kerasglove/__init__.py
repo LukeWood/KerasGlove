@@ -31,7 +31,7 @@ def GloveEmbedding(size,input_length,word_index,**kwargs):
     for line in open(fname):
         values = line.split()
         word = values[0]
-        coefs = np.asarray(len(word_index)+1,dtype='float32')
+        coefs = np.asarray(values[1:],dtype='float32')
         embeddings_index[word] = coefs
 
     embedding_matrix=np.zeros((len(word_index)+1,EMBED_SIZE))

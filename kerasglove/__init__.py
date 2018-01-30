@@ -75,7 +75,7 @@ if not path.isdir(appdata):
 def GloveEmbedding(size,input_length,word_index,**kwargs):
     from keras.layers import Embedding
     if not size in [50,100,200,300]:
-        message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%num_weights
+fnum        message = "Invalid Value %d passed as \"weights\" parameter.\n\tValid Values are: [50,100,200,300]"%size
         raise ValueError(message)
 
     EMBED_SIZE = int(size)

@@ -8,7 +8,7 @@ import os
 setup(
   name = 'kerasglove',
   packages = ['kerasglove'], # this must be the same as the name above
-  version = '1.1',
+  version = '1.4',
   description = 'Pre-trained GLOVE embeddings for keras',
   author = 'LukeWood',
   author_email = 'lukewoodcs@gmail.com',
